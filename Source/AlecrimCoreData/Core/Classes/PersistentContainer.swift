@@ -104,12 +104,8 @@ open class GenericPersistentContainer<ContextType: NSManagedObjectContext> {
     
     public convenience init(name: String, automaticallyLoadPersistentStores: Bool) {
         if let modelURL = Bundle.main.url(forResource: name, withExtension: "momd") ?? Bundle.main.url(forResource: name, withExtension: "mom") {
-            if let model = NSManagedObjectModel(contentsOf: modelURL) {
-                self.init(name: name, managedObjectModel: model, automaticallyLoadPersistentStores: automaticallyLoadPersistentStores)
+                self.init(name: name, managedObjectModel: NSManagedObjectModel(contentsOf: modelURL), automaticallyLoadPersistentStores: automaticallyLoadPersistentStores)
                 return
-            }
-            
-            fatalError("CoreData: Failed to load model at path: \(modelURL)")
         }
         
         guard let model = NSManagedObjectModel.mergedModel(from: [Bundle.main]) else {
